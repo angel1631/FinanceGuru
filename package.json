@@ -1,0 +1,21 @@
+{
+  "name": "financeguru",
+  "version": "1.0.0",
+  "description": "App para llevar el control de las finanzas",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "next build",
+    "prestart": "next build",
+    "start": "next start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "next": "^12.1.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1"
+  }
+}
