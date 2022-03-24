@@ -64,7 +64,7 @@ function Presupuestos (){
         let presupuestos = [...state_presupuestos[0]];
         if(presupuestos[presupuesto_activo[0][1]].id != presupuesto_activo[0][0]) throw "Error grave el id seleccionado no es igual al almacenado, refrescar la pagina";
         let new_movimientos = [];
-        
+        let notificacion = '';
         let actualizar = false;
         if(!!id){actualizar = true;}
         new_movimientos.push({id,descripcion,monto,ingreso,fecha: getDateShort(fecha)});
@@ -79,7 +79,7 @@ function Presupuestos (){
             new_movimientos[0].id = parseInt(Math.random() * 10000000);
             if(repeticiones>0){
                 console.log("cambiar_frecuenia", cambiar_frecuencia);
-                let notificacion = '';
+               
                 if(cambiar_frecuencia && frecuencia>1){
                     fecha = new Date(fecha+"T00:00:00");
                     for(var x = 0; x < repeticiones; x++){
