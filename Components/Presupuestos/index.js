@@ -95,9 +95,10 @@ function Presupuestos (){
                     for(var x = 0; x<repeticiones;x++){
                         let id = parseInt(Math.random() * 10000000);
                         let new_month = parseInt(fecha.getMonth())+2;
-                        if(new_month>12) new_month = 1;
-                        let new_date = `${fecha.getFullYear()}-${(new_month+'').padStart(2,0)}-${dia_ori}T00:00:00`;
-                        let alt_date = `${fecha.getFullYear()}-${(new_month+'').padStart(2,0)}-01T00:00:00`;
+                        let new_year = parseInt(fecha.getFullYear());
+                        if(new_month>12){ new_month = 1; new_year +=1;}
+                        let new_date = `${new_year}-${(new_month+'').padStart(2,0)}-${dia_ori}T00:00:00`;
+                        let alt_date = `${new_year}-${(new_month+'').padStart(2,0)}-01T00:00:00`;
                         fecha = new Date(new_date);
                         if(String(fecha.getDate()).padStart(2, '0')==dia_ori){
                             new_movimientos.push({id,descripcion,monto,ingreso,fecha: getDateShort(fecha)});
