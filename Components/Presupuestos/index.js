@@ -21,7 +21,7 @@ function Presupuestos (){
 
 
     let show_form_movimiento = React.useState(false);
-    let form_movimiento = React.useState({id:'', descripcion: '', monto:'', ingreso:true, fecha:'', frecuencia: '', repeticiones: '', periodico: false});
+    let form_movimiento = React.useState({id:'', descripcion: '', monto:'', ingreso:true, fecha:'', frecuencia: '', repeticiones: '', periodico: false, cambiar_frecuencia: false});
     
     let fields_movimiento = [];
     fields_movimiento.push({id: 'id', description: 'Id del movimiento', type:'number', required:false, invisible:true});
@@ -31,7 +31,9 @@ function Presupuestos (){
     fields_movimiento.push({id: 'ingreso', description: 'Es un ingreso', type:'switch'});
     fields_movimiento.push({id: 'periodico', description: 'Desea repetir este movimiento varias veces', type: 'switch'});
     fields_movimiento.push({id: 'repeticiones', description: 'Cuantas veces desea repetir el movimiento:', type:'number', required: false, depende: 'periodico'});
-    fields_movimiento.push({id: 'frecuencia', description: 'Cada cuantos días desea repetir el movimiento:', type:'number', required: false, depende: 'periodico'});
+    fields_movimiento.push({id: 'cambiar_frecuencia', description: 'Desea cambiar el día que se repetira el movimiento?', type: 'switch', required: false, depende: 'periodico'});
+    fields_movimiento.push({id: 'frecuencia', description: 'Cada cuantos días desea repetir el movimiento:', type:'number', required: false, depende: 'cambiar_frecuencia'});
+
     
     let guardar_presupuesto = async ({id, title, createdAt, inicio})=>{
         let new_presupuesto = {id,title,createdAt};
@@ -57,7 +59,7 @@ function Presupuestos (){
         }
     }
 
-    let guardar_movimiento = ({id, descripcion, monto, fecha,frecuencia, ingreso, repeticiones})=>{
+    let guardar_movimiento = ({id, descripcion, monto, fecha,frecuencia, ingreso, repeticiones,cambiar_frecuencia})=>{
         if(monto<=0) throw "Los movimientos solo pueden tener montos mayores a 0";
         let presupuestos = [...state_presupuestos[0]];
         if(presupuestos[presupuesto_activo[0][1]].id != presupuesto_activo[0][0]) throw "Error grave el id seleccionado no es igual al almacenado, refrescar la pagina";
@@ -75,16 +77,38 @@ function Presupuestos (){
             state_presupuestos[1](presupuestos);
         }else{
             new_movimientos[0].id = parseInt(Math.random() * 10000000);
-            if(frecuencia>1){
-                fecha = new Date(fecha+"T00:00:00");
-                for(var x = 0; x < repeticiones; x++){
-                    id = parseInt(Math.random() * 10000000);
-                    fecha = fecha.getTime();
-                    fecha = fecha+(86400*frecuencia*1000);
-                    fecha = new Date(fecha);
-                    new_movimientos.push({id,descripcion,monto,ingreso,fecha: getDateShort(fecha)});
-                }    
+            if(repeticiones>0){
+                console.log("cambiar_frecuenia", cambiar_frecuencia);
+                let notificacion = '';
+                if(cambiar_frecuencia && frecuencia>1){
+                    fecha = new Date(fecha+"T00:00:00");
+                    for(var x = 0; x < repeticiones; x++){
+                        let id = parseInt(Math.random() * 10000000);
+                        fecha = fecha.getTime();
+                        fecha = fecha+(86400*frecuencia*1000);
+                        fecha = new Date(fecha);
+                        new_movimientos.push({id,descripcion,monto,ingreso,fecha: getDateShort(fecha)});
+                    }    
+                }else if(cambiar_frecuencia==false){
+                    fecha = new Date(fecha+"T00:00:00");
+                    let dia_ori = String(fecha.getDate()).padStart(2, '0');
+                    for(var x = 0; x<repeticiones;x++){
+                        let id = parseInt(Math.random() * 10000000);
+                        let new_month = parseInt(fecha.getMonth())+2;
+                        if(new_month>12) new_month = 1;
+                        let new_date = `${fecha.getFullYear()}-${(new_month+'').padStart(2,0)}-${dia_ori}T00:00:00`;
+                        let alt_date = `${fecha.getFullYear()}-${(new_month+'').padStart(2,0)}-01T00:00:00`;
+                        fecha = new Date(new_date);
+                        if(String(fecha.getDate()).padStart(2, '0')==dia_ori){
+                            new_movimientos.push({id,descripcion,monto,ingreso,fecha: getDateShort(fecha)});
+                        }else{
+                            fecha = new Date(alt_date);
+                            notificacion += `No se agrego movimiento el ${new_date}, por que no existe la fecha\n`;
+                        }
+                    }
+                }
             }
+            if(notificacion!='') alert(notificacion);
             presupuestos[presupuesto_activo[0][1]].detail = [...presupuestos[presupuesto_activo[0][1]].detail, ...new_movimientos];
             state_presupuestos[1](presupuestos);
             
