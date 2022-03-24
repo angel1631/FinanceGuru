@@ -1,6 +1,7 @@
 import {format_currency} from "../../Core/functions/number";
 import {FaArrowLeft, FaEdit, FaTrash} from "react-icons/fa";
 import { ContainerList } from "../../Core/components/ContainerList";
+import {reverse} from "../../Core/functions/date";
 
 function PresupuestoList({presupuesto_activo, form_state, state_show_form, headers=[], statePresupuestos}){
     let [form,setForm] = form_state;
@@ -26,7 +27,7 @@ function PresupuestoList({presupuesto_activo, form_state, state_show_form, heade
                 {
                     presupuesto.detail.map((line,index)=>(
                         <div className={`py-2 w-full flex text-center ${line.acumulado<0 && "bg-red-400 text-white"}`} key={line.id}>
-                            <div className="w-2/12 px-1 ">{line.fecha}</div>
+                            <div className="w-2/12 px-1 ">{reverse(line.fecha)}</div>
                             <div className="w-4/12 text-left px-1 ">{line.descripcion}</div>
                             
                             <div className={`w-2/12 px-1 ${(line.ingreso==false) && " text-red-700 "}`} >{line.ingreso==false && "-"}{format_currency({val:line.monto})}</div>
