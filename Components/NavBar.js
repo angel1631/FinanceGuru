@@ -5,7 +5,9 @@ import {TiThMenu} from 'react-icons/ti';
 import {RiShoppingBag3Line} from 'react-icons/ri';
 import {FaFileInvoiceDollar} from 'react-icons/fa';
 import {GiPayMoney} from 'react-icons/gi';
+import { GiCloudDownload } from 'react-icons/gi';
 import {GoHome} from 'react-icons/go';
+
 
 function NavBar({title}){
     let menu_active = React.useState(false);
@@ -42,6 +44,13 @@ function NavBar({title}){
                         <label>Gastos</label>
                     </div>
                 </Link>
+                <Link href='/ExportData'>
+                    <div className='nav-link flex space-x-2  text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0'>
+                        <GiCloudDownload className='text-blue-400 mt-1' />
+                        <label>Admin</label>
+                    </div>
+                </Link>
+                
             </div>
         </nav>
     );
