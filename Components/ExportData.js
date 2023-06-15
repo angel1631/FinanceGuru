@@ -54,6 +54,9 @@ function ExportData(){
                     <div  className='mt-5 ml-1/12 w-11/12 p-5 font-bold'>
                         Copia el siguiente texto y pegalo en otro navegador en la opcion importar.
                     </div>
+                    <div className='w-full flex justify-end' >
+                        <div className='btn bg-yellow-300 w-1/12 p-2 rounded-lg font-bold' onClick={()=>{navigator.clipboard.writeText(JSON.stringify(states));alert('Copiado a portapapeles')}}>COPIAR</div>
+                    </div>
                     <div className='mt-3 w-full p-2 bg-white'>
                         {JSON.stringify(states)}
                     </div>
