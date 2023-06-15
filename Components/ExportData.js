@@ -28,6 +28,15 @@ function ExportData(){
         }
         
     }
+    function copiar_portapapeles(){
+        navigator.clipboard.writeText(JSON.stringify(states))
+        .then(() => {
+            alert('Texto copiado al portapapeles')
+        })
+        .catch(err => {
+            alert('Error al copiar al portapapeles:', err)
+        })
+    }
     console.log(states);
     return (
         <div className='flex flex-col items-center'>
@@ -55,7 +64,7 @@ function ExportData(){
                         Copia el siguiente texto y pegalo en otro navegador en la opcion importar.
                     </div>
                     <div className='w-full flex justify-end' >
-                        <button className='btn bg-yellow-300 w-6/12 lg:w-1/12 p-2 rounded-lg font-bold text-center' onClick={()=>{navigator.clipboard.writeText(JSON.stringify(states));alert('Copiado a portapapeles')}}>
+                        <button className='btn bg-yellow-300 w-6/12 lg:w-1/12 p-2 rounded-lg font-bold text-center' onClick={copiar_portapapeles}>
                             COPIAR
                         </button>
                     </div>
