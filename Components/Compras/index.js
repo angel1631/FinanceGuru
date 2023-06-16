@@ -10,12 +10,15 @@ import {Context} from '../../Context';
 function Compras() {
   let {states} = useContext(Context);
   let item_searched = React.useState("");
+  let marca_searched = React.useState("");
   let autoComplete = [];
+  let autoComplete_marca = [];
   if(states.items) autoComplete = states.items[0];
+  if(states.marcas) autoComplete_marca = states.marcas[0];
   let fields = [
     {id: 'id', description: 'id', type: 'text', orden: 1, required:false, invisible:true},
     {id: "producto", description:'Item', type: 'text', orden:1, autoComplete,onBlur: (e)=>{item_searched[1](e.target.value)}},
-    {id: "marca", description: 'Marca', type: 'text', orden:2},
+    {id: "marca", description: 'Marca', type: 'text', orden:2, autoComplete: autoComplete_marca,onBlur: (e)=>{marca_searched[1](e.target.value)}},
     {id: "unidad", description: 'Tamaño', type: 'text', orden: 3},
     {id: "cantidad", description:'Cantidad', type: 'number', orden:4},
     {id: "precio", description:'Precio', type: 'number', orden:5},
@@ -52,6 +55,9 @@ function Compras() {
     }
     if(states.items[0].indexOf(producto)<0){
       states.items[1]([...states.items[0], producto]);
+    }
+    if(states?.marcas[0]?.indexOf(producto)<0){
+      states.marcas[1]([...states.marcas[0], marca]);
     }
   }
   let create_buy = ({id, title, createdAt})=>{

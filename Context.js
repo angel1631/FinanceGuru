@@ -10,6 +10,7 @@ function ContextProvider(props){
     states.gastos = useLocalStorage({nameItem: 'gastos', defaultValue: []});
     states.buys = useLocalStorage({nameItem: 'buys', defaultValue:[]});
     states.items = useLocalStorage({nameItem: 'items', defaultValue:[]});
+    states.marcas = useLocalStorage({nameItem: 'marcas', defaultValue:[]});
     return (
         <Context.Provider value={{
             states
