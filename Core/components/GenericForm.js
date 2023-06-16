@@ -46,7 +46,9 @@ function GenericForm({title="Formulario", children, fields, url_enviar, function
                     <div className="text-xl font-bold text-white bg-red-500 mt-2 w-8 h-8 rounded-full text-center relative float-left" onClick={()=>state_show_form[1](false)}>x</div>
                 </div>
                 {
-                    fields.map(field=>(
+                    fields.map(field=>{
+                        
+                        return (
                         <div className={(field.depende && form[field.depende]==false) && 'hidden' || 'form-line'} key={field.id}>
                             {field.type=='radio' && 
                                 field.options.map((option,index)=>(
@@ -78,7 +80,7 @@ function GenericForm({title="Formulario", children, fields, url_enviar, function
                             }
                             {field.autoComplete && <AutoComplete list={field.autoComplete} form_state={form_state} id={field.id}/>}
                         </div>
-                    ))
+                    )})
                 }
                 {children}
                 <button className="w-full my-4 bg-sky-400 py-2 rounded-lg shadow-lg font-bold" type="submit">Guardar</button>

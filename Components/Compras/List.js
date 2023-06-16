@@ -23,11 +23,27 @@ function List({buy_active, form_state, form_item_visible, headers=[], buys}){
     }
     return (
         <ContainerList title={`${buy.title} (${buy.createdAt})`} onClickAdd={()=>form_item_visible(true)} onClickBack={()=>buy_active[1]([0,-1])}>
-            <div className="w-full divide-y divide-stone-300 shadow-lg bg-slate-50">
+            <div className="w-full  divide-y divide-stone-300 shadow-lg bg-slate-50">
+                <div className="w-full bg-green-200 flex text-center font-bold" >
+                    <div className="w-3/12 text-left px-1 ">Producto</div>
+                    <div className="w-1/12 px-1">Marca</div>
+                    <div className="w-1/12 px-1">Tamaño</div>
+                    <div className="w-1/12 px-1 ">Cantidad</div>
+                    <div className="w-2/12 px-1 ">Precio</div>
+                    <div className="w-2/12 px-1 ">Total</div>
+                    <div className="w-1/12 px-1 ">
+                        <button><FaEdit className=" text-blue-400 text-xl" /></button>
+                    </div>
+                    <div className="w-1/12 px1 ">
+                        <button ><FaTrash className=" text-orange-700 text-xl"></FaTrash></button>
+                    </div>
+                </div>
                 {
                     buy.detail.map((line,index)=>(
                         <div className="w-full flex text-center" key={Math.floor(Math.random() * 10000)}>
-                            <div className="w-5/12 text-left px-1 ">{line.producto}</div>
+                            <div className="w-3/12 text-left px-1 ">{line.producto}</div>
+                            <div className="w-1/12 px-1">{line.marca}</div>
+                            <div className="w-1/12 px-1">{line.unidad}</div>
                             <div className="w-1/12 px-1 ">{line.cantidad}</div>
                             <div className="w-2/12 px-1 ">{format_currency({val:line.precio})}</div>
                             <div className="w-2/12 px-1 ">{format_currency({val:line.total})}</div>

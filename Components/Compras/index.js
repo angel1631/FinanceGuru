@@ -15,27 +15,29 @@ function Compras() {
   let fields = [
     {id: 'id', description: 'id', type: 'text', orden: 1, required:false, invisible:true},
     {id: "producto", description:'Item', type: 'text', orden:1, autoComplete,onBlur: (e)=>{item_searched[1](e.target.value)}},
-    {id: "cantidad", description:'Cantidad', type: 'number', orden:2},
-    {id: "precio", description:'Precio', type: 'number', orden:3},
+    {id: "marca", description: 'Marca', type: 'text', orden:2},
+    {id: "unidad", description: 'Tamaño', type: 'text', orden: 3},
+    {id: "cantidad", description:'Cantidad', type: 'number', orden:4},
+    {id: "precio", description:'Precio', type: 'number', orden:5},
   ];
   
-  let fields_buy = [{id: "title", description:'Nombre de la compra', type: 'text', orden:1},
+  let fields_buy = [{id: "title", description:'Nombre de la compra', type: 'text', orden:1, default: 'Hola'},
                     {id: 'id', description: 'identificador de compra', type: 'number', invisible: true, required: false},
                     {id: 'createdAt', description: 'Fecha que se realizo la compra', type: 'date', required: false}];
   let buy_active = React.useState([0,-1]);
   let form_buy_visible = React.useState(false);
   let form_item_visible = React.useState(false);
   let form_buy = React.useState({title:'', createdAt: ''});
-  let form_item = React.useState({id:'',producto:'',cantidad:'',precio:''});
+  let form_item = React.useState({id:'',unidad: '', marca: '', producto:'',cantidad:'',precio:''});
 
-  let create_line_product = ({id,producto,cantidad,precio})=>{
+  let create_line_product = ({id,producto,cantidad,precio,unidad, marca})=>{
     if(buy_active[0][0]===0) throw "Debe seleccionar una compra para poder agregar un item";
     if(cantidad<=0) throw "La cantidad ingresada no es valida";
     if(precio<=0) throw "El precio del producto no esta correcto";
     
     let buys = JSON.parse(JSON.stringify(states.buys[0]));
     if(buys[buy_active[0][1]].id != buy_active[0][0]) throw "Error grave refrescar la pagina";
-    let new_item = {producto,cantidad,precio, total: parseFloat((cantidad*precio).toFixed(2))};
+    let new_item = {producto,unidad, marca, cantidad,precio, total: parseFloat((cantidad*precio).toFixed(2))};
     if(parseInt(id)>0){
       buys[buy_active[0][1]].detail.map((item,index)=>{
         if(item.id==id){
